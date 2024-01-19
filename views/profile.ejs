@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anime</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/new.css">
+
+    <link rel="stylesheet" href="stylesheets/profile.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="links">
+        <a href="/">home</a>
+        <a href="/profile">profile</a>
+        <a href="/feed">feeds</a>
+        <a href="/logout">logout</a>
+       </div>
+    <header>
+
+        <div class="container">
+    
+            <div class="profile">
+    
+                <div class="profile-image">
+    
+                    <img src="data:image/png;base64,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" width="50%" height="50%" alt="">
+                </div>
+    
+                <div class="profile-user-settings">
+    
+                    <h1 class="profile-user-name"><%=user.fullname%></h1>
+    
+                    <button class="btn profile-edit-btn">Edit Profile</button>
+                    <a href="/logout"><button class="logout">logout</button></a>
+                    
+    
+                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+    
+                </div>
+    
+                <div class="profile-stats">
+    
+                    <ul>
+                        <li><span class="profile-stat-count">164</span> posts</li>
+                        <li><span class="profile-stat-count">188</span> followers</li>
+                        <li><span class="profile-stat-count">206</span> following</li>
+                    </ul>
+    
+                </div>
+                
+                <div class="profile-bio">
+    
+                    <p><span class="profile-real-name"><%=user.username%></span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+    
+                    <form action="/upload" method="post" enctype="multipart/form-data">
+                        <input type="text" name="filecaption" placeholder="write caption">
+                        <input type="file" name="file" placeholder="choose image">
+                        <input type="submit" value="upload">
+                    </form>
+                </div>
+    
+    
+            </div>
+           
+    
+        </div>
+       
+    
+    </header>
+    
+    <main>
+    
+        <div class="container">
+    
+           <div class="gallery">
+            <% user.posts.forEach(function(post){ %>
+            <div class="gallery-item" tabindex="0">
+                   
+                <img src="images/uploads/<%=post.image%>" class="gallery-image" alt="">
+                <a href="/delete/<%=post._id%>" class="delete-post-button">🗑️</a>
+                
+                
+                <div class="gallery-item-info">
+                  
+
+                    <ul>
+                        <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 89</li>
+                        <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 5</li>
+                    </ul>
+
+                </div>
+                <h3 style="color: #333333;margin: auto;text-align: center;"><%=post.imageText%></h3>
+                <a href="/delete/<%=post._id%>" class="delete-post-button">Delete Post</a>
+
+            </div>
+            <%});%>
+           </div>
+    
+        
+    
+        </div>
+    
+    
+    </main>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>

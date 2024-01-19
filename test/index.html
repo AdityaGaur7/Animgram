@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        img {
+            width: auto;
+            height: 40rem;
+        }
+
+        .bg {
+
+            width: 100%;
+            height: 100vh;
+            background: url('./sky.webp') no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .mountain {
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            background: url('./mountain.webp') no-repeat;
+            background-position: center;
+            background-size: contain;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cloud {
+            position: fixed;
+            z-index: 1;
+            display: flex;
+            overflow: hidden;
+            animation: cloud 20s 0s infinite linear ;
+            /* transform: translateX(-90rem); */
+            transition: all 10s ease;
+        }
+        @keyframes cloud {
+            100%{
+                transform: translateX(-90rem);
+            }0%{
+                transform: translateX(90rem);
+            }
+            
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg">
+        <div class="cloud">
+            <img src="./cloud (1).webp" alt="" id="cloud" />
+            <img src="./cloud (1).webp" alt="" id="cloud" />
+        </div>
+        <div class="mountain">
+
+            <img src="1.png" id="ok" alt="">
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var a = document.getElementById("ok");
+        var i = 1;
+
+        function changeImage() {
+            a.src = `${i}.png`;
+
+            i = i % 11 + 1;
+        }
+
+        setInterval(changeImage, 200);
+    </script>
+</body>
+
+</html>
