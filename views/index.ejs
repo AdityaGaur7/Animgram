@@ -1,66 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>SociApp</title>
   <link rel="stylesheet" href="stylesheets/login.css">
   <link rel="stylesheet" href="stylesheets/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    body{
-        overflow: hidden;
+    body {
+      overflow: hidden;
     }
-    .cont{
+
+    .cont {
       position: absolute;
-    z-index: 2;
-        width: 100%;
-        background: white;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      z-index: 2;
+      width: 100%;
+      background: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    img{
-        width: auto;
-        height: 50%;
+
+    img {
+      width: auto;
+      height: 50%;
     }
-</style>
+
+    /* Normal Usage */
+    .spinner:before {
+      transform: rotateX(60deg) rotateY(45deg) rotateZ(45deg);
+      animation: 750ms rotateBefore infinite linear reverse;
+    }
+
+    .spinner:after {
+      transform: rotateX(240deg) rotateY(45deg) rotateZ(45deg);
+      animation: 750ms rotateAfter infinite linear;
+    }
+
+    .spinner:before,
+    .spinner:after {
+      box-sizing: border-box;
+      content: '';
+      display: block;
+      position: absolute;
+      margin-top: -5em;
+      margin-left: -5em;
+      width: 10em;
+      height: 10em;
+      transform-style: preserve-3d;
+      transform-origin: 50%;
+      transform: rotateY(50%);
+      perspective-origin: 50% 50%;
+      perspective: 340px;
+      background-size: 10em 10em;
+      background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjI2NnB4IiBoZWlnaHQ9IjI5N3B4IiB2aWV3Qm94PSIwIDAgMjY2IDI5NyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpza2V0Y2g9Imh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaC9ucyI+CiAgICA8dGl0bGU+c3Bpbm5lcjwvdGl0bGU+CiAgICA8ZGVzY3JpcHRpb24+Q3JlYXRlZCB3aXRoIFNrZXRjaCAoaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoKTwvZGVzY3JpcHRpb24+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8cGF0aCBkPSJNMTcxLjUwNzgxMywzLjI1MDAwMDM4IEMyMjYuMjA4MTgzLDEyLjg1NzcxMTEgMjk3LjExMjcyMiw3MS40OTEyODIzIDI1MC44OTU1OTksMTA4LjQxMDE1NSBDMjE2LjU4MjAyNCwxMzUuODIwMzEgMTg2LjUyODQwNSw5Ny4wNjI0OTY0IDE1Ni44MDA3NzQsODUuNzczNDM0NiBDMTI3LjA3MzE0Myw3NC40ODQzNzIxIDc2Ljg4ODQ2MzIsODQuMjE2MTQ2MiA2MC4xMjg5MDY1LDEwOC40MTAxNTMgQy0xNS45ODA0Njg1LDIxOC4yODEyNDcgMTQ1LjI3NzM0NCwyOTYuNjY3OTY4IDE0NS4yNzczNDQsMjk2LjY2Nzk2OCBDMTQ1LjI3NzM0NCwyOTYuNjY3OTY4IC0yNS40NDkyMTg3LDI1Ny4yNDIxOTggMy4zOTg0Mzc1LDEwOC40MTAxNTUgQzE2LjMwNzA2NjEsNDEuODExNDE3NCA4NC43Mjc1ODI5LC0xMS45OTIyOTg1IDE3MS41MDc4MTMsMy4yNTAwMDAzOCBaIiBpZD0iUGF0aC0xIiBmaWxsPSIjMDAwMDAwIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIj48L3BhdGg+CiAgICA8L2c+Cjwvc3ZnPg==);
+    }
+
+    /* sitNSpin.less */
+    @keyframes rotateBefore {
+      from {
+        transform: rotateX(60deg) rotateY(45deg) rotateZ(0deg);
+      }
+
+      to {
+        transform: rotateX(60deg) rotateY(45deg) rotateZ(-360deg);
+      }
+    }
+
+    @keyframes rotateAfter {
+      from {
+        transform: rotateX(240deg) rotateY(45deg) rotateZ(0deg);
+      }
+
+      to {
+        transform: rotateX(240deg) rotateY(45deg) rotateZ(360deg);
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="cont">
-    <img src="images/naruto-run-gif.gif" alt="">
-</div>
+    <div class="spinner"></div>
+  </div>
   <div class="container">
     <div class="content">
       <!--pinterest logo-->
-      <img src="images/sharingan.gif" style="border-radius: 50%;" alt="pin logo" class="img1" />
+      <img src="images/profile_.webp" style="border-radius: 50%;" alt="pin logo" class="img1" />
       <p class="header">Make account</p>
       <form action="/register" method="post">
         <input type="email" name="email" placeholder="email" class="detail" />
-      <input type="text" name="username" placeholder="username" class="detail" /><br />
-      <input type="text" name="fullname" placeholder="fullname" class="detail" /><br />
-      <input type="password" name="password" placeholder="password" class="detail" /><br />
-      <input type="submit" class="btn int" value="Register Account">
+        <input type="text" name="username" placeholder="username" class="detail" /><br />
+        <input type="text" name="fullname" placeholder="fullname" class="detail" /><br />
+        <input type="password" name="password" placeholder="password" class="detail" /><br />
+        <input type="submit" class="btny int" value="Register Account">
 
       </form>
-     
+
       <footer>
-        <p>
-          By continuing, you agree to Konoha's
-          <b>Terms of Service, Privacy policy.</b>
-        </p>
-        <hr />
+
+
         <a href="/login">Already a user? Login </a>
       </footer>
     </div>
   </div>
-  <a href="/login" class="upbtn">login</a>
-<script>
-  var loader = document.querySelector(".cont");
+  <a href="/login" class="upbtn int">login</a>
+  <script>
+    var loader = document.querySelector(".cont");
 
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 5000);
-</script>
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 5000);
+  </script>
 </body>
+
 </html>

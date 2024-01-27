@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 body{
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
     margin: 0;
     padding: 0;
 }
@@ -37,14 +37,23 @@ body{
     box-shadow: 0 4px 8px 0 #E7E9EB, 0 6px 20px 0 #E7E9EB;
 }
 .logout:hover{
+    transition: .55s ease;
+    padding: .5rem;
+    border-radius: 1px;
     background-color: red;
     color: white;
 }
 .editbtn:hover{
+    transition: .55s ease;
+    padding: .5rem;
+    border-radius: 1px;
     background: rgb(199, 18, 231);
     color: white;
 }
 .newpost:hover{
+    transition: .55s ease;
+    padding: .5rem;
+    border-radius: 1px;
     background: blue;
     color: white;
 }
