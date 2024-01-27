@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const plm = require("passport-local-mongoose");
 // const { use } = require('.');
-mongoose.connect("mongodb://localhost:27017/myappdb");
+// let url = "mongodb+srv://adkumar7112:anime123@myapp.pgt6ifm.mongodb.net/";
+let url = "mongodb://localhost:27017/myappdb";
+mongoose.connect(url,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const userSchema = new mongoose.Schema({
   username: {

@@ -36,15 +36,17 @@ body{
     line-height:1.1;
     box-shadow: 0 4px 8px 0 #E7E9EB, 0 6px 20px 0 #E7E9EB;
 }
-.logout{
+.logout:hover{
     background-color: red;
     color: white;
-    border-radius: 10px;
-    padding: 3px;
-    
-    margin: auto;
-    text-align: center;
-    outline: 0;
+}
+.editbtn:hover{
+    background: rgb(199, 18, 231);
+    color: white;
+}
+.newpost:hover{
+    background: blue;
+    color: white;
 }
 #upper-bg{
     width: 100%;

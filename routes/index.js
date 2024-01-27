@@ -6,15 +6,85 @@ const passport = require("passport");
 const upload = require("./multer");
 const localStrategy = require("passport-local");
 const { redirect } = require('react-router-dom');
+
+const { initializeApp } = require('firebase/app');
+const { getAnalytics } = require('firebase/analytics');
+const { getStorage, ref, uploadBytes } = require('firebase/storage');
+// Your existing multer code
+const multer = require("multer");
+const {v4: uuidv4} = require("uuid");
+const path = require("path");
+
 passport.use(new localStrategy(userModel.authenticate()));
 
 /* GET home page. */
 
 
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
 
+// router.post('/updateProfileImage', isLoggedIn, upload.single('profileImage'), async (req, res, next) => {
+//   try {
+//     if (!req.file) {
+//       return res.status(404).send('No files were uploaded');
+//     }
+
+//     // Upload the image to Firebase Storage
+//     const storageRef = ref(storage, 'profileImages/' + req.file.filename);
+//     await uploadBytes(storageRef, req.file.buffer);
+
+//     const user = await userModel.findOne({ username: req.session.passport.user });
+//     user.dp = req.file.filename;
+//     await user.save();
+
+//     res.redirect('/profile');
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+// router.post('/upload', isLoggedIn, upload.single("file"), async function (req, res, next) {
+//   try {
+//     if (!req.file) {
+//       return res.status(404).send('No files were uploaded');
+//     }
+
+//     // Upload the image to Firebase Storage
+//     const storageRef = ref(storage, 'postImages/' + req.file.filename);
+//     await uploadBytes(storageRef, req.file.buffer);
+
+//     const user = await userModel.findOne({ username: req.session.passport.user });
+//     const post = await postModel.create({
+//       image: req.file.filename,
+//       imageText: req.body.filecaption,
+//       user: user._id,
+//     });
+
+//     user.posts.push(post._id);
+//     await user.save();
+//     res.redirect('/profile');
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+
+router.post('/updateProfileImage', isLoggedIn, upload.single("profileImage"), async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(404).send('No files were uploaded');
+    }
+
+    const user = await userModel.findOne({ username: req.session.passport.user });
+    user.dp = req.file.filename;
+    await user.save();
+
+    res.redirect("/profile"); // You can redirect to the profile page or any other page
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 router.post('/upload',isLoggedIn, upload.single("file"),async function(req, res, next) {
 
@@ -34,10 +104,40 @@ router.post('/upload',isLoggedIn, upload.single("file"),async function(req, res,
   res.redirect("/profile");
 });
 
+
+
+
+
+
+
+
+router.get('/', function(req, res, next) {
+  res.render('index');
+});
+
+
+
+router.get('/edit',async function(req,res){
+  
+ 
+  res.render('edit');
+ 
+})
+router.get('/post',async function(req,res){
+  
+ 
+  res.render('dopost');
+ 
+})
+
 router.get('/feed',async function(req, res, next) {
-  const user  = await postModel.find();
-  console.log(user);
-  res.render('feed',{user});
+  try {
+    const posts = await postModel.find().populate('user');
+    res.render('feed', { posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
  
 });
 
