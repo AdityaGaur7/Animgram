@@ -5,15 +5,15 @@ const postModel = require("./posts");
 const passport = require("passport");
 const upload = require("./multer");
 const localStrategy = require("passport-local");
-const { redirect } = require('react-router-dom');
+// const { redirect } = require('react-router-dom');
 
-const { initializeApp } = require('firebase/app');
-const { getAnalytics } = require('firebase/analytics');
-const { getStorage, ref, uploadBytes } = require('firebase/storage');
-// Your existing multer code
-const multer = require("multer");
-const {v4: uuidv4} = require("uuid");
-const path = require("path");
+// const { initializeApp } = require('firebase/app');
+// const { getAnalytics } = require('firebase/analytics');
+// const { getStorage, ref, uploadBytes } = require('firebase/storage');
+// // Your existing multer code
+// const multer = require("multer");
+// const {v4: uuidv4} = require("uuid");
+// const path = require("path");
 
 passport.use(new localStrategy(userModel.authenticate()));
 

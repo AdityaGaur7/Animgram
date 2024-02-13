@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 
 
-// let url = "mongodb://localhost:27017/myappdb";
-let url = "mongodb+srv://adkumar7112:ZZF1W9wv25IVSVGe@testcluster.qod1yun.mongodb.net/?retryWrites=true&w=majority";
+// let url = "mongodb://127.0.0.1:27017/mydb";
+let url = "mongodb+srv://adkumar7112:adgaur7112@data.dbvduwf.mongodb.net/?retryWrites=true&w=majority";
 
 
 mongoose.connect(url,{

@@ -67,5 +67,4 @@ Special thanks to [name of any libraries or frameworks you used] for their inval
 
 Enjoy using SociApp! If you have any questions or issues, feel free to open an [issue](https://github.com/your-username/sociapp/issues).
 
-https://github.com/AdityaGaur7/Animgram/assets/121216575/89fc0264-4ad8-4a66-be23-9a3952b8be56
 
