@@ -4,6 +4,8 @@
 
 Welcome to SociApp, a small-scale social media platform developed using Express.js for the backend and MongoDB as the database. SociApp provides essential features such as user authentication (login and signup), post creation, post deletion, editing profile images, and a feed section to view posts from other users.
 
+https://github.com/AdityaGaur7/Animgram/assets/121216575/89fc0264-4ad8-4a66-be23-9a3952b8be56
+
 ## Features
 
 1. **User Authentication:**
@@ -67,4 +69,8 @@ Special thanks to [name of any libraries or frameworks you used] for their inval
 
 Enjoy using SociApp! If you have any questions or issues, feel free to open an [issue](https://github.com/your-username/sociapp/issues).
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fce7d7af3f15b69f2fa0bdda2d43d6be93f16d01
 
