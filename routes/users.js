@@ -7,10 +7,7 @@ let url = "mongodb+srv://adkumar7112:adgaur7112@data.dbvduwf.mongodb.net/?retryW
 
 
 
-mongoose.connect(url,{
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(url);
 
 const userSchema = new mongoose.Schema({
   username: {

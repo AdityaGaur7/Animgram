@@ -6,10 +6,7 @@ const mongoose = require('mongoose');
 let url = "mongodb+srv://adkumar7112:adgaur7112@data.dbvduwf.mongodb.net/?retryWrites=true&w=majority";
 
 
-mongoose.connect(url,{
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(url);
 
 const postSchema = new mongoose.Schema({
   imageText: {
