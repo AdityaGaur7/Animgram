@@ -31,7 +31,7 @@ passport.use(new localStrategy(userModel.authenticate()));
 //     const storageRef = ref(storage, 'profileImages/' + req.file.filename);
 //     await uploadBytes(storageRef, req.file.buffer);
 
-//     const user = await userModel.findOne({ username: req.session.passport.user });
+//     const user = await userModel.find({ username: req.session.passport.user });
 //     user.dp = req.file.filename;
 //     await user.save();
 
@@ -52,7 +52,7 @@ passport.use(new localStrategy(userModel.authenticate()));
 //     const storageRef = ref(storage, 'postImages/' + req.file.filename);
 //     await uploadBytes(storageRef, req.file.buffer);
 
-//     const user = await userModel.findOne({ username: req.session.passport.user });
+//     const user = await userModel.find({ username: req.session.passport.user });
 //     const post = await postModel.create({
 //       image: req.file.filename,
 //       imageText: req.body.filecaption,
@@ -75,7 +75,8 @@ router.post('/updateProfileImage', isLoggedIn, upload.single("profileImage"), as
       return res.status(404).send('No files were uploaded');
     }
 
-    const user = await userModel.findOne({ username: req.session.passport.user });
+    const user = await userModel.findOne({ username: req.session.passport.user },null,
+      { timeout: 30000 });
     user.dp = req.file.filename;
     await user.save();
 
@@ -92,7 +93,8 @@ router.post('/upload',isLoggedIn, upload.single("file"),async function(req, res,
     return res.status(404).send('No files were uploaded');
   }
   // res.send('file uploaded successfully');
-  const user = await userModel.findOne({username:req.session.passport.user});
+  const user = await userModel.findOne({username:req.session.passport.user},null,
+    { timeout: 30000 });
   const post = await postModel.create({
     image:req.file.filename,
     imageText:req.body.filecaption,
@@ -158,7 +160,8 @@ router.get('/delete/:postId', isLoggedIn, async (req, res, next) => {
     }
 
     // Remove the post ID from the user's posts array
-    const user = await userModel.findOne({ username: req.session.passport.user });
+    const user = await userModel.findOne({ username: req.session.passport.user },null,
+      { timeout: 30000 });
     user.posts.pull(postId);
     await user.save();
 
@@ -174,7 +177,8 @@ router.get('/delete/:postId', isLoggedIn, async (req, res, next) => {
 router.get('/profile',isLoggedIn, async function(req, res, next) {
   const user  = await userModel.findOne({
     username:req.session.passport.user
-  }).populate("posts");
+  },null,
+  { timeout: 30000 }).populate("posts");
   console.log(user);
   res.render('profile',{user});
 });
