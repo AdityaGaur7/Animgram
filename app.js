@@ -20,7 +20,7 @@ app.use(expressSession({
   resave:false,
   saveUninitialized:false,
   secret:"holabholaholabhola",
-  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
+   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
