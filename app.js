@@ -19,7 +19,8 @@ app.use(flash());
 app.use(expressSession({
   resave:false,
   saveUninitialized:false,
-  secret:"holabholaholabhola"
+  secret:"holabholaholabhola",
+   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
