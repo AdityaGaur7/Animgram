@@ -13,23 +13,38 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image:{
-     type:String
+  image: {
+    type: String
 
   },
-  user:{
-  type:mongoose.Schema.Types.ObjectId,
-  ref:'User'
-  
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  likes: {
-    type: Array,
-    default: [],
-  },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  comments: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    text: String,
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  likeCount: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Post = mongoose.model('Post', postSchema);

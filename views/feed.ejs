@@ -4,116 +4,306 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SociApp</title>
-  <link rel="stylesheet" href="stylesheets/style.css">
-  <link rel="stylesheet" href="stylesheets/new.css">
-  <link rel="stylesheet" href="stylesheets/menu.css">
-
-  <link rel="stylesheet" href="stylesheets/feed.css">
+  <title>SociApp - Feed</title>
+  <link rel="stylesheet" href="stylesheets/monochrome.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="stylesheets/style.css">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div class="html-container">
-    <div class="html-section">
-      <div class="html-project">
-        <div class="navigation">
-          <nav>
-            <ul class="nav-type">
-              <li><a href="/feed" target="_blank" class="active">Feed</a></li>
-              <li><a href="/profile" target="_blank" class="active1">Profile</a></li>
-              <li><a href="/logout" target="_blank" class="active2">Logout</a></li>
-              <!-- <li><a href="" target="_blank" class="active3">Support</a></li> -->
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">SociApp</a>
 
-
-            </ul>
-          </nav>
-        </div>
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search users..." id="searchInput">
+        <div id="searchResults" class="search-results"></div>
       </div>
+
+      <ul class="nav-links">
+        <li><a href="/feed" class="active">Feed</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/post">New Post</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
     </div>
-    <noscript>
-      <div class="first-line">
-        <div class="linear">
-          <div class="line-w5">
+  </nav>
 
-          </div>
-        </div>
-      </div>
-    </noscript>
-    <template>
-      <div class="flash-fluid">
-        <div class="flash-time">
-          <div class="flash-GIF">
-
-          </div>
-        </div>
-      </div>
-    </template>
-    <noscript>
-      <div class="cyrcle-center">
-        <div class="radial-cyrcle">
-
-        </div>
-      </div>
-    </noscript>
-  </div>
-
-  <main>
-    <div class="container">
-
-      <div class="gallery">
-        <% posts.forEach(function(post){ %>
-          <div class="gallery-item" tabindex="0" >
-
-            <img src="images/uploads/<%=post.image%>" class="gallery-image" alt="">
-
-
-
-            <div class="gallery-item-info">
-
-
-              <ul style="all:unset">
-                <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart"
-                    aria-hidden="true"></i> 89</li>
-                <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i
-                    class="fas fa-comment" aria-hidden="true"></i> 5</li>
-              </ul>
-
+  <!-- Main Content -->
+  <main class="grid-container">
+    <div class="posts-grid">
+      <% posts.forEach(function(post){ %>
+        <div class="post-card" data-post-id="<%= post._id %>">
+          <!-- Post Header -->
+          <div class="post-header">
+            <img src="images/uploads/<%= post.user.dp || 'profile.webp' %>" alt="<%= post.user.fullname %>"
+              class="post-avatar">
+            <div class="post-user-info">
+              <div class="post-username">
+                <%= post.user.fullname %>
+              </div>
+              <div class="post-time">
+                <%= new Date(post.createdAt).toLocaleDateString() %>
+              </div>
             </div>
-            <h3 style="color: #333333;margin: auto;text-align: center; padding: 0.5rem;">
-              <%=post.imageText%>
-            </h3>
-            <h3 style="color:red;margin: auto;text-align: center; padding: 0.5rem;">Post by <%= post.user.fullname %>
-            </h3>
-
-
-
           </div>
-          <%});%>
-      </div>
 
+          <!-- Post Image -->
+          <img src="images/uploads/<%= post.image %>" alt="Post image" class="post-image">
 
+          <!-- Post Content -->
+          <div class="post-content">
+            <div class="post-caption">
+              <%= post.imageText %>
+            </div>
+          </div>
 
+          <!-- Post Actions -->
+          <div class="post-actions">
+            <button class="action-btn like-btn" data-post-id="<%= post._id %>">
+              <i class="fas fa-heart"></i>
+              <span class="like-count">
+                <%= post.likeCount || 0 %>
+              </span>
+            </button>
+            <button class="action-btn comment-btn" data-post-id="<%= post._id %>">
+              <i class="fas fa-comment"></i>
+              <span class="comment-count">
+                <%= post.comments ? post.comments.length : 0 %>
+              </span>
+            </button>
+            <button class="action-btn share-btn">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+
+          <!-- Comments Section -->
+          <div class="comments-section" id="comments-<%= post._id %>" style="display: none;">
+            <% if (post.comments && post.comments.length> 0) { %>
+              <% post.comments.forEach(function(comment) { %>
+                <div class="comment">
+                  <img src="images/uploads/<%= comment.user.dp || 'profile.webp' %>" alt="<%= comment.user.fullname %>"
+                    class="comment-avatar">
+                  <div class="comment-content">
+                    <div class="comment-text">
+                      <span class="comment-username">
+                        <%= comment.user.fullname %>
+                      </span>
+                      <%= comment.text %>
+                    </div>
+                    <div class="comment-time">
+                      <%= new Date(comment.createdAt).toLocaleDateString() %>
+                    </div>
+                  </div>
+                </div>
+                <% }); %>
+                  <% } %>
+
+                    <!-- Add Comment Form -->
+                    <div class="add-comment">
+                      <img src="images/uploads/profile.webp" alt="Your avatar" class="comment-avatar">
+                      <textarea class="comment-input" placeholder="Add a comment..."
+                        data-post-id="<%= post._id %>"></textarea>
+                      <button class="btn btn-primary post-comment-btn" data-post-id="<%= post._id %>">Post</button>
+                    </div>
+          </div>
+        </div>
+        <% }); %>
     </div>
   </main>
+
   <script>
-    //function section in Javascript and Jquery...
-    function myData() {
-      retrun;
-    }
+    // Like functionality
+    document.addEventListener('click', async function (e) {
+      if (e.target.closest('.like-btn')) {
+        const btn = e.target.closest('.like-btn');
+        const postId = btn.dataset.postId;
+        const likeCount = btn.querySelector('.like-count');
+        const heartIcon = btn.querySelector('i');
 
-    function show() {
-      document.getElementById('anotherFunction').classList.toggle('Active');
-    }
+        try {
+          const response = await fetch(`/like/${postId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
 
+          const data = await response.json();
 
+          if (data.liked) {
+            heartIcon.style.color = 'var(--primary-black)';
+            btn.classList.add('liked');
+          } else {
+            heartIcon.style.color = 'var(--light-gray)';
+            btn.classList.remove('liked');
+          }
+
+          likeCount.textContent = data.likeCount;
+        } catch (error) {
+          console.error('Error liking post:', error);
+        }
+      }
+    });
+
+    // Comment functionality
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.comment-btn')) {
+        const btn = e.target.closest('.comment-btn');
+        const postId = btn.dataset.postId;
+        const commentsSection = document.getElementById(`comments-${postId}`);
+
+        if (commentsSection.style.display === 'none') {
+          commentsSection.style.display = 'block';
+        } else {
+          commentsSection.style.display = 'none';
+        }
+      }
+    });
+
+    // Post comment
+    document.addEventListener('click', async function (e) {
+      if (e.target.closest('.post-comment-btn')) {
+        const btn = e.target.closest('.post-comment-btn');
+        const postId = btn.dataset.postId;
+        const commentInput = document.querySelector(`textarea[data-post-id="${postId}"]`);
+        const commentText = commentInput.value.trim();
+
+        if (!commentText) return;
+
+        try {
+          const response = await fetch(`/comment/${postId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: commentText })
+          });
+
+          const data = await response.json();
+
+          // Add comment to UI
+          const commentsSection = document.getElementById(`comments-${postId}`);
+          const commentDiv = document.createElement('div');
+          commentDiv.className = 'comment';
+          commentDiv.innerHTML = `
+            <img src="images/uploads/profile.webp" alt="Your avatar" class="comment-avatar">
+            <div class="comment-content">
+              <div class="comment-text">
+                <span class="comment-username">You</span>
+                ${commentText}
+              </div>
+              <div class="comment-time">Just now</div>
+            </div>
+          `;
+
+          commentsSection.insertBefore(commentDiv, commentsSection.querySelector('.add-comment'));
+
+          // Update comment count
+          const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+          commentCount.textContent = parseInt(commentCount.textContent) + 1;
+
+          // Clear input
+          commentInput.value = '';
+        } catch (error) {
+          console.error('Error posting comment:', error);
+        }
+      }
+    });
+
+    // Search functionality
+    let searchTimeout;
+    document.getElementById('searchInput').addEventListener('input', function (e) {
+      clearTimeout(searchTimeout);
+      const query = e.target.value.trim();
+
+      if (query.length < 2) {
+        document.getElementById('searchResults').innerHTML = '';
+        return;
+      }
+
+      searchTimeout = setTimeout(async () => {
+        try {
+          const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
+          const data = await response.json();
+
+          const resultsDiv = document.getElementById('searchResults');
+          if (data.users.length === 0) {
+            resultsDiv.innerHTML = '<div class="search-result">No users found</div>';
+          } else {
+            resultsDiv.innerHTML = data.users.map(user => `
+              <div class="search-result" onclick="window.location.href='/user/${user._id}'">
+                <img src="images/uploads/${user.dp || 'profile.webp'}" alt="${user.fullname}" class="search-avatar">
+                <div>
+                  <div class="search-username">${user.fullname}</div>
+                  <div class="search-handle">@${user.username}</div>
+                </div>
+              </div>
+            `).join('');
+          }
+        } catch (error) {
+          console.error('Error searching:', error);
+        }
+      }, 300);
+    });
   </script>
 
+  <style>
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--pure-white);
+      border: 1px solid var(--border-gray);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px var(--shadow);
+      z-index: 1000;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .search-result {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .search-result:hover {
+      background-color: var(--hover-gray);
+    }
+
+    .search-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.75rem;
+    }
+
+    .search-username {
+      font-weight: 600;
+      color: var(--primary-black);
+    }
+
+    .search-handle {
+      font-size: 0.85rem;
+      color: var(--light-gray);
+    }
+  </style>
 </body>
 
 </html>

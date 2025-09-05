@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-   
+
   },
   posts: [
     {
@@ -37,6 +37,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  bio: {
+    type: String,
+    default: ''
+  }
 });
 
 userSchema.plugin(plm);

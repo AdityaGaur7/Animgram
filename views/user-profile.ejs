@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SociApp - <%= user.fullname %>
+    </title>
+    <link rel="stylesheet" href="stylesheets/monochrome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/feed" class="logo">SociApp</a>
+
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search users..." id="searchInput">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/feed">Feed</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/post">New Post</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <header class="profile-header">
+        <div class="profile-info">
+            <img src="images/uploads/<%= user.dp || 'profile.webp' %>" alt="<%= user.fullname %>"
+                class="profile-avatar">
+
+            <div class="profile-details">
+                <h1>
+                    <%= user.fullname %>
+                </h1>
+                <p class="profile-handle">@<%= user.username %>
+                </p>
+
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-number">
+                            <%= user.posts ? user.posts.length : 0 %>
+                        </span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">
+                            <%= user.followers ? user.followers.length : 0 %>
+                        </span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">
+                            <%= user.following ? user.following.length : 0 %>
+                        </span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                </div>
+
+                <div class="profile-bio">
+                    <p>
+                        <%= user.bio || 'Welcome to my profile!' %>
+                    </p>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn btn-primary follow-btn" data-user-id="<%= user._id %>">
+                        <i class="fas fa-user-plus"></i>
+                        Follow
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="grid-container">
+        <div class="posts-grid">
+            <% if (user.posts && user.posts.length> 0) { %>
+                <% user.posts.forEach(function(post){ %>
+                    <div class="post-card" data-post-id="<%= post._id %>">
+                        <!-- Post Header -->
+                        <div class="post-header">
+                            <img src="images/uploads/<%= user.dp || 'profile.webp' %>" alt="<%= user.fullname %>"
+                                class="post-avatar">
+                            <div class="post-user-info">
+                                <div class="post-username">
+                                    <%= user.fullname %>
+                                </div>
+                                <div class="post-time">
+                                    <%= new Date(post.createdAt).toLocaleDateString() %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Post Image -->
+                        <img src="images/uploads/<%= post.image %>" alt="Post image" class="post-image">
+
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <div class="post-caption">
+                                <%= post.imageText %>
+                            </div>
+                        </div>
+
+                        <!-- Post Actions -->
+                        <div class="post-actions">
+                            <button class="action-btn like-btn" data-post-id="<%= post._id %>">
+                                <i class="fas fa-heart"></i>
+                                <span class="like-count">
+                                    <%= post.likeCount || 0 %>
+                                </span>
+                            </button>
+                            <button class="action-btn comment-btn" data-post-id="<%= post._id %>">
+                                <i class="fas fa-comment"></i>
+                                <span class="comment-count">
+                                    <%= post.comments ? post.comments.length : 0 %>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="comments-section" id="comments-<%= post._id %>" style="display: none;">
+                            <% if (post.comments && post.comments.length> 0) { %>
+                                <% post.comments.forEach(function(comment) { %>
+                                    <div class="comment">
+                                        <img src="images/uploads/<%= comment.user.dp || 'profile.webp' %>"
+                                            alt="<%= comment.user.fullname %>" class="comment-avatar">
+                                        <div class="comment-content">
+                                            <div class="comment-text">
+                                                <span class="comment-username">
+                                                    <%= comment.user.fullname %>
+                                                </span>
+                                                <%= comment.text %>
+                                            </div>
+                                            <div class="comment-time">
+                                                <%= new Date(comment.createdAt).toLocaleDateString() %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                        <% } %>
+
+                                            <!-- Add Comment Form -->
+                                            <div class="add-comment">
+                                                <img src="images/uploads/profile.webp" alt="Your avatar"
+                                                    class="comment-avatar">
+                                                <textarea class="comment-input" placeholder="Add a comment..."
+                                                    data-post-id="<%= post._id %>"></textarea>
+                                                <button class="btn btn-primary post-comment-btn"
+                                                    data-post-id="<%= post._id %>">Post</button>
+                                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="empty-state">
+                                <i class="fas fa-camera"
+                                    style="font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem;"></i>
+                                <h3>No posts yet</h3>
+                                <p>This user hasn't shared anything yet.</p>
+                            </div>
+                            <% } %>
+        </div>
+    </main>
+
+    <script>
+        // Follow/Unfollow functionality
+        document.addEventListener('click', async function (e) {
+            if (e.target.closest('.follow-btn')) {
+                const btn = e.target.closest('.follow-btn');
+                const userId = btn.dataset.userId;
+
+                try {
+                    const response = await fetch(`/follow/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.following) {
+                        btn.innerHTML = '<i class="fas fa-user-check"></i> Following';
+                        btn.classList.add('following');
+                    } else {
+                        btn.innerHTML = '<i class="fas fa-user-plus"></i> Follow';
+                        btn.classList.remove('following');
+                    }
+
+                    // Update follower count
+                    const followerCount = document.querySelector('.stat:nth-child(2) .stat-number');
+                    followerCount.textContent = data.followerCount;
+                } catch (error) {
+                    console.error('Error following user:', error);
+                }
+            }
+        });
+
+        // Like functionality
+        document.addEventListener('click', async function (e) {
+            if (e.target.closest('.like-btn')) {
+                const btn = e.target.closest('.like-btn');
+                const postId = btn.dataset.postId;
+                const likeCount = btn.querySelector('.like-count');
+                const heartIcon = btn.querySelector('i');
+
+                try {
+                    const response = await fetch(`/like/${postId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.liked) {
+                        heartIcon.style.color = 'var(--primary-black)';
+                        btn.classList.add('liked');
+                    } else {
+                        heartIcon.style.color = 'var(--light-gray)';
+                        btn.classList.remove('liked');
+                    }
+
+                    likeCount.textContent = data.likeCount;
+                } catch (error) {
+                    console.error('Error liking post:', error);
+                }
+            }
+        });
+
+        // Comment functionality
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.comment-btn')) {
+                const btn = e.target.closest('.comment-btn');
+                const postId = btn.dataset.postId;
+                const commentsSection = document.getElementById(`comments-${postId}`);
+
+                if (commentsSection.style.display === 'none') {
+                    commentsSection.style.display = 'block';
+                } else {
+                    commentsSection.style.display = 'none';
+                }
+            }
+        });
+
+        // Post comment
+        document.addEventListener('click', async function (e) {
+            if (e.target.closest('.post-comment-btn')) {
+                const btn = e.target.closest('.post-comment-btn');
+                const postId = btn.dataset.postId;
+                const commentInput = document.querySelector(`textarea[data-post-id="${postId}"]`);
+                const commentText = commentInput.value.trim();
+
+                if (!commentText) return;
+
+                try {
+                    const response = await fetch(`/comment/${postId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text: commentText })
+                    });
+
+                    const data = await response.json();
+
+                    // Add comment to UI
+                    const commentsSection = document.getElementById(`comments-${postId}`);
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment';
+                    commentDiv.innerHTML = `
+                        <img src="images/uploads/profile.webp" alt="Your avatar" class="comment-avatar">
+                        <div class="comment-content">
+                            <div class="comment-text">
+                                <span class="comment-username">You</span>
+                                ${commentText}
+                            </div>
+                            <div class="comment-time">Just now</div>
+                        </div>
+                    `;
+
+                    commentsSection.insertBefore(commentDiv, commentsSection.querySelector('.add-comment'));
+
+                    // Update comment count
+                    const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+                    commentCount.textContent = parseInt(commentCount.textContent) + 1;
+
+                    // Clear input
+                    commentInput.value = '';
+                } catch (error) {
+                    console.error('Error posting comment:', error);
+                }
+            }
+        });
+
+        // Search functionality
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+
+            if (query.length < 2) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
+                    const data = await response.json();
+
+                    const resultsDiv = document.getElementById('searchResults');
+                    if (data.users.length === 0) {
+                        resultsDiv.innerHTML = '<div class="search-result">No users found</div>';
+                    } else {
+                        resultsDiv.innerHTML = data.users.map(user => `
+                            <div class="search-result" onclick="window.location.href='/user/${user._id}'">
+                                <img src="images/uploads/${user.dp || 'profile.webp'}" alt="${user.fullname}" class="search-avatar">
+                                <div>
+                                    <div class="search-username">${user.fullname}</div>
+                                    <div class="search-handle">@${user.username}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                } catch (error) {
+                    console.error('Error searching:', error);
+                }
+            }, 300);
+        });
+    </script>
+
+    <style>
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-handle {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .follow-btn.following {
+            background-color: var(--off-white);
+            color: var(--primary-black);
+            border: 1px solid var(--border-gray);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--light-gray);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: var(--medium-gray);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--pure-white);
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .search-result {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-result:hover {
+            background-color: var(--hover-gray);
+        }
+
+        .search-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.75rem;
+        }
+
+        .search-username {
+            font-weight: 600;
+            color: var(--primary-black);
+        }
+
+        .search-handle {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+    </style>
+</body>
+
+</html>
